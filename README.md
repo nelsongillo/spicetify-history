@@ -1,6 +1,6 @@
 # Spicetify History Shortcut
 
-Spicetify Extension that create a shortcut to the Track History Page.
+Spicetify Extension which creates a shortcut to the Track History Page.
 
 ## Preview
 ![Screenshot](screenshot.png)
