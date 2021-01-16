@@ -7,14 +7,20 @@
     }
 
     const ITEM_LABEL = "History"
-    const ITEM_ID = "historyShortcut"
 
+    const HISTORY_DIV_CLASS         = "SidebarListItem"
+    const HISTORY_DIV_CLASS_ACTIVE  = "SidebarListItem SidebarListItem--is-active"
+
+    const HISTORY_ANKER_CLASS        = "SidebarListItemLink SidebarListItemLink--tall spoticon-time-24"
+    const HISTORY_ANKER_CLASS_ACTIVE = "SidebarListItemLink SidebarListItemLink--is-highlighted SidebarListItemLink--tall spoticon-time-24"
+
+    let historyItem = createHistoyItem()
     // Get Sidebar Lists
     var topicList = document.getElementsByClassName("SidebarList__list")
     if (topicList) {
         // Add to first in list
         // On default layout this would be the Home/Browse/Radio List
-        topicList[0].appendChild(createHistoyItem())
+        topicList[0].appendChild(historyItem.div)
     } else {
         return
     }
@@ -22,7 +28,7 @@
     const toCheckMutate = document.getElementById('view-content');
     const config = { attributes: true, childList: true, subtree: true };
 
-    let observerCallback = function(changes, _) {
+    let observerCallback = function(_, _) {
         appQueue = document.getElementById("app-queue")
         if (!appQueue){ return }
         
@@ -38,16 +44,18 @@
     let observer = new MutationObserver(observerCallback)
     observer.observe(toCheckMutate, config)
 
-    // Deactivate Selected Status for History Item
+    
+
+    // Deactivate Active Status for History Item
     function onLeaveHistory() {
-        item = document.getElementById(ITEM_ID)
-        item.setAttribute("class", "SidebarListItem")
+        historyItem.div.setAttribute("class",HISTORY_DIV_CLASS)
+        historyItem.anker.setAttribute("class", HISTORY_ANKER_CLASS)
     }
 
-    // Activate Selected Status for History Item
+    // Activate Active Status for History Item
     function onClickHistory() {
-        item = document.getElementById(ITEM_ID)
-        item.setAttribute("class", "SidebarListItem SidebarListItem--is-active")
+        historyItem.div.setAttribute("class", HISTORY_DIV_CLASS_ACTIVE)
+        historyItem.anker.setAttribute("class", HISTORY_ANKER_CLASS_ACTIVE)
     }
 
     // Construct the List Item
@@ -56,14 +64,13 @@
         *  <li class="SidebarListItem">
         */
         let listItem = document.createElement("li")
-        listItem.setAttribute("class", "SidebarListItem")
-        listItem.setAttribute("id", ITEM_ID)
+        listItem.setAttribute("class", HISTORY_DIV_CLASS)
 
         /* Outer Div Element
         *  <div class="DropTarget SidebarListItem__drop-target DropTarget--tracks DropTarget--albums DropTarget--artists DropTarget--playlists">
         */
         let outer = document.createElement("div")
-        outer.setAttribute("class", "DropTarget SidebarListItem__drop-target DropTarget--tracks DropTarget--albums DropTarget--artists DropTarget--playlists")
+        outer.setAttribute("class", "DropTarget SidebarListItem__drop-target")
 
         /* Middle Div Element
         *  <div class="SidebarListItem__inner">
@@ -85,7 +92,7 @@
         *    data-ta-id="sidebar-list-item-link">
         */
         anker = document.createElement("a")
-        anker.setAttribute("class", "SidebarListItemLink SidebarListItemLink--tall spoticon-time-24")
+        anker.setAttribute("class", HISTORY_ANKER_CLASS)
         anker.setAttribute("draggable", "false")
         anker.setAttribute("href", "spotify:app:queue:history")
         anker.setAttribute("data-sidebar-list-item-uri", "spotify:app:queue:history")
@@ -111,7 +118,6 @@
 
         listItem.addEventListener("click", onClickHistory)
 
-
-        return listItem
+        return {div: listItem, anker: anker}
     }
 })();
