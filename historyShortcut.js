@@ -1,7 +1,6 @@
 (function HistoryShortcut() {
 
-    const { CosmosAPI, Player, LocalStorage, PlaybackControl, ContextMenu, URI } = Spicetify
-    if (!(CosmosAPI && Player && LocalStorage && PlaybackControl && ContextMenu && URI)) {
+    if (!Spicetify.PlaybackControl) {
         setTimeout(HistoryShortcut, 300)
         return
     }
