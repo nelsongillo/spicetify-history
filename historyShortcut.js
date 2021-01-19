@@ -1,6 +1,11 @@
+// NAME: History Shortcut
+// AUTHOR: einzigartigerName
+// DESCRIPTION: Adds a Shortcut to your Listening History to the Sidebar
+
 (function HistoryShortcut() {
 
-    if (!Spicetify.PlaybackControl) {
+    const { CosmosAPI, Player, LocalStorage, PlaybackControl, ContextMenu, URI } = Spicetify
+    if (!(CosmosAPI && Player && LocalStorage && PlaybackControl && ContextMenu && URI)) {
         setTimeout(HistoryShortcut, 300)
         return
     }
@@ -15,11 +20,11 @@
 
     let historyItem = createHistoyItem()
     // Get Sidebar Lists
-    var topicList = document.getElementsByClassName("SidebarList__list")
+    var topicList = document.querySelector("#view-navigation-bar > div > div.LeftSidebar__section > div > ul")
     if (topicList) {
         // Add to first in list
         // On default layout this would be the Home/Browse/Radio List
-        topicList[0].appendChild(historyItem.div)
+        topicList.appendChild(historyItem.div)
     } else {
         return
     }
