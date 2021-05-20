@@ -1,4 +1,4 @@
-# Spicetify History Shortcut
+# Spicetify History Shortcut for Spotify v1.1.56 or older
 
 Spicetify Extension which creates a shortcut to the Track History Page.
 
